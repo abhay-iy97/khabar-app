@@ -20,4 +20,6 @@ Additional features:
   - Collation of free news sources like a newsstand.  
   - Multi doc summarization. Click on the summary which should direct you to the list of related articles. From this point, the user gets to choose the article they wants to read.
   - Multi-purpose. Content creation? 
-  
+  - Speech to text for news articles and summaries
+  - Sentiment analysis on news articles but what more can we do other than categorizing them? 
+  - Bias elimination
