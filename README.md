@@ -23,3 +23,6 @@ Additional features:
   - Speech to text for news articles and summaries (eventually polyglot)
   - Sentiment analysis on news articles but what more can we do other than categorizing them? 
   - Bias elimination
+
+**Phase 3**:
+Audio segmentation on podcasts.
