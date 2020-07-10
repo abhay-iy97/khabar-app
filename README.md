@@ -26,3 +26,12 @@ Additional features:
 
 **Phase 3**:
 Audio segmentation on podcasts. 
+
+
+## Tasks  
+1. Collect keywords(trends) from twitter.   
+2. Scrape opensource websites using keywords.   
+3. Apply 15 min window on data with sorting according to no of articles.   
+4. Store the links on GDrive?   
+5. Display links in a basic ui on app.   
+6. Use api for text to speech on the articles.   
