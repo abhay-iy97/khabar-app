@@ -25,4 +25,4 @@ Additional features:
   - Bias elimination
 
 **Phase 3**:
-Audio segmentation on podcasts.
+Audio segmentation on podcasts. 
