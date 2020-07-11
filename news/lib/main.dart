@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:english_words/english_words.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:news/entities/note.dart';
+import 'package:http/http.dart' as http;
 
 void main() => runApp(
     MyApp()); // Main used arrow notation for calling one-line function or methods
@@ -110,26 +111,39 @@ class _RandomWordsState extends State<RandomWords> {
     );
   }
 
-  Future<String> get _localPath async {
-    final directory = await getApplicationDocumentsDirectory();
+  // Future<String> get _localPath async {
+  //   final directory = await getApplicationDocumentsDirectory();
 
-    return directory.path;
-  }
+  //   return directory.path;
+  // }
 
-  Future<File> get _localFile async {
-    final path = await _localPath;
-    return File('$path/data.json');
-  }
+  // Future<File> get _localFile async {
+  //   final path = await _localPath;
+  //   return File('$path/data.json');
+  // }
 
   Future<List<Note>> fetchNotes() async {
-    final file = await _localFile;
+    // final file = await _localFile;
+
+    // var notes = List<Note>();
+
+    // String contents = await file.readAsString();
+    // var newsList = jsonDecode(contents);
+    // for (var news in newsList) {
+    //   notes.add(Note.fromJson(news));
+    // }
+    // return notes;
+    var url =
+        'https://raw.githubusercontent.com/boriszv/json/master/random_example.json';
+    var response = await http.get(url);
 
     var notes = List<Note>();
 
-    String contents = await file.readAsString();
-    var newsList = jsonDecode(contents);
-    for (var news in newsList) {
-      notes.add(Note.fromJson(news));
+    if (response.statusCode == 200) {
+      var notesJson = json.decode(response.body);
+      for (var noteJson in notesJson) {
+        notes.add(Note.fromJson(noteJson));
+      }
     }
     return notes;
   }
