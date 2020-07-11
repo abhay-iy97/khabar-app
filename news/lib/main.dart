@@ -94,6 +94,7 @@ class _RandomWordsState extends State<RandomWords> {
                     _notes[i].text,
                     style: TextStyle(color: Colors.grey.shade700),
                   ),
+                  Image.network(_notes[i].image)
                   // Image,
                 ],
               ),
