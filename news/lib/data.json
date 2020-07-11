@@ -234,16 +234,6 @@
                 "urlToImage": "https://static.toiimg.com/thumb/msid-76902976,width-1070,height-580,imgsize-44814,resizemode-75,overlay-toi_sw,pt-32,y_pad-40/photo.jpg",
                 "publishedAt": "2020-07-11T00:44:00Z",
                 "content": null
-            },
-            {
-                "source": {
-                    "id": null,
-                    "name": "Managing Madrid"
-                },
-                "author": "Emily.T.Wilson",
-                "title": "Player Ratings: Real Madrid 2 - Alaves 0; 2020 La Liga - Managing Madrid",
-                "description": "Goals from Benzema and Asensio make it eight wins from eight.",
-                "url": "https://www.managingmadrid.com/2020/7/11/21320562/player-ratings-real-madrid-2-alaves-0-2020-la-liga",
-                "urlToImage": "https://cdn.vox-cdn.com/thumbor/2VbdwwdfhmlxV4xjQD4sGsrcxeo=/0x246:3424x2039/fit-in/1200x630/cdn.vox-cdn.com/uploads/chorus_asset/file/20078022/1226220103.jpg.jpg",
-                "publishedAt": "2020-07-11T00:07:21Z",
-                "content": "Thanks to the help of some referee decision-making, Real Madrid have eight wins from eight games after a 2-0 win over Alaves, restoring their four point lead over Barcelona. It was a changed line up \u2026 [+3287 chars]"
+            }
+                 ]
+}
