@@ -80,27 +80,54 @@ class _RandomWordsState extends State<RandomWords> {
           // }
           // return _buildRow(_suggestions[index]);
           return Card(
-            child: Padding(
-              padding: const EdgeInsets.only(
-                  top: 32.0, bottom: 32.0, left: 16.0, right: 16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Text(
-                    _notes[i].title,
-                    style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-                  ),
-                  Text(
-                    _notes[i].text,
-                    style: TextStyle(color: Colors.grey.shade700),
-                  ),
-                  Image.network(_notes[i].image)
-                  // Image,
-                ],
+            child: new InkWell(
+              onTap: () {
+                _navigateToPageDetails(context, _notes[i]);
+              },
+              child: Padding(
+                padding: const EdgeInsets.only(
+                    top: 32.0, bottom: 32.0, left: 16.0, right: 16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      _notes[i].title,
+                      style:
+                          TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                    ),
+                    Text(
+                      _notes[i].text,
+                      style: TextStyle(color: Colors.grey.shade700),
+                    ),
+                    Image.network(_notes[i].image)
+
+                    // Image,
+                  ],
+                ),
               ),
             ),
           );
         });
+  }
+
+  _navigateToPageDetails(BuildContext context, Note item) async {
+    //Holds the results returned from PageDetails.
+    final resultFromPageDetails = await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => PageDetails(
+          item: item,
+        ),
+      ),
+    );
+
+    //TODO: Navigation implementations are discussed in upcoming Navigation section of this article
+
+    //snackbars is used to display the result returned from another page.
+    //Hide any previous snackbars and show the new resultFromPageDetails.
+    Scaffold.of(context)
+      ..removeCurrentSnackBar()
+      ..showSnackBar(SnackBar(content: Text("$resultFromPageDetails")));
   }
 
   Widget _buildRow(WordPair pair) {
@@ -159,13 +186,43 @@ class _RandomWordsState extends State<RandomWords> {
     // Now adding the infinite scroll list
     return Scaffold(
       appBar: AppBar(
-        title: Text('News'),
+        title: Text('News Baby'),
       ),
       body: _buildSuggestions(),
     );
   }
 }
 
+class PageDetails extends StatelessWidget {
+  final Note item;
+
+  const PageDetails({Key key, this.item}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(item.title),
+      ),
+      body: Column(
+        children: [
+          Image.network(item.image),
+          Text(
+            item.text,
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+          ),
+        ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.favorite_border),
+        onPressed: () {
+          //Current item's name along with message is sent back to last screen
+          Navigator.pop(context, '${item.title} is marked as favorite.');
+        },
+      ),
+    );
+  }
+}
 // import 'dart:convert';
 
 // import 'package:flutter/material.dart';
