@@ -517,6 +517,10 @@ class _PageDetails extends State<PageDetails> {
       ),
       body: Column(
         children: [
+          Text(
+            widget.item.text,
+            style: TextStyle(color: Colors.black),
+          ),
           Image.network(widget.item.image),
           Text(
             "yolo",
