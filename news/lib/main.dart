@@ -488,7 +488,7 @@ class _PageDetails extends State<PageDetails> {
                 setState(() {
                   //speechSettings1();
                   //isPlaying ? _stop() : _speak("descriptions yes no");
-                  _speak("descriptions yes no");
+                  _speak(widget.item.text);
                 });
               },
               child: isPlaying
