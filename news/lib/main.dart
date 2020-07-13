@@ -10,6 +10,7 @@ import 'package:http/http.dart' as http;
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:news/plugins/platform/myplatform.dart';
 import 'package:news/plugins/platform/platform.dart';
+import 'package:flutter/cupertino.dart';
 
 void main() => runApp(
     MyApp()); // Main used arrow notation for calling one-line function or methods
@@ -68,20 +69,6 @@ class _RandomWordsState extends State<RandomWords> {
         padding:
             EdgeInsets.only(top: 10.0, bottom: 10.0, left: 4.0, right: 4.0),
         itemBuilder: (context, i) {
-          // if (i.isOdd) return Divider();
-
-          // final index = i ~/ 2;
-          // if (index >= _suggestions.length) {
-          //   _suggestions.addAll(generateWordPairs().take(10));
-          //   Column(
-          //     children: <Widget>[
-          //       Text('Note Title'),
-          //       Text('Date'),
-          //       // Image,
-          //     ],
-          //   );
-          // }
-          // return _buildRow(_suggestions[index]);
           return Card(
             child: new InkWell(
               onTap: () {
@@ -103,8 +90,6 @@ class _RandomWordsState extends State<RandomWords> {
                       style: TextStyle(color: Colors.grey.shade700),
                     ),
                     Image.network(_notes[i].image)
-
-                    // Image,
                   ],
                 ),
               ),
@@ -115,14 +100,7 @@ class _RandomWordsState extends State<RandomWords> {
 
   _navigateToPageDetails(BuildContext context, Note item) async {
     //Holds the results returned from PageDetails.
-    final resultFromPageDetails = await Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => PageDetails(
-          item: item,
-        ),
-      ),
-    );
+    final resultFromPageDetails = await Navigator.push(context, CupertinoPageRoute(builder: (context) => PageDetails(item: item,),),);
 
     //TODO: Navigation implementations are discussed in upcoming Navigation section of this article
 
@@ -130,7 +108,7 @@ class _RandomWordsState extends State<RandomWords> {
     //Hide any previous snackbars and show the new resultFromPageDetails.
     Scaffold.of(context)
       ..removeCurrentSnackBar()
-      ..showSnackBar(SnackBar(content: Text("$resultFromPageDetails")));
+      ..showSnackBar(SnackBar(content: Text("$resultFromPageDetails"))); // REMOVE.
   }
 
   Widget _buildRow(WordPair pair) {
@@ -142,31 +120,7 @@ class _RandomWordsState extends State<RandomWords> {
     );
   }
 
-  // Future<String> get _localPath async {
-  //   final directory = await getApplicationDocumentsDirectory();
-
-  //   return directory.path;
-  // }
-
-  // Future<File> get _localFile async {
-  //   final path = await _localPath;
-  //   return File('$path/data.json');
-  // }
-
   Future<List<Note>> fetchNotes() async {
-    // final file = await _localFile;
-
-    // var notes = List<Note>();
-
-    // String contents = await file.readAsString();
-    // var newsList = jsonDecode(contents);
-    // for (var news in newsList) {
-    //   notes.add(Note.fromJson(news));
-    // }
-    // return notes;
-    // var url =
-    //     'https://raw.githubusercontent.com/abhay-iy97/kratos/master/news/lib/data.json?token=AEJYMTPMPYLM7KY5KIL6V2C7BG4C6';
-    //
     var url =
         'https://raw.githubusercontent.com/Shashi456/Deep-Learning/master/data.json';
     var response = await http.get(url);
@@ -196,6 +150,15 @@ class _RandomWordsState extends State<RandomWords> {
   }
 }
 
+class navPageRoute extends CupertinoPageRoute {
+  navPageRoute(): super(builder: (BuildContext context) => new PageDetails()) ;
+
+  @override
+  Widget buildPage(BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation) {
+    return new FadeTransition(opacity: animation, child: new PageDetails());
+  }
+}
+
 class PageDetails extends StatefulWidget {
   PageDetails({Key key, this.item}) : super(key: key);
   final Note item;
@@ -204,191 +167,6 @@ class PageDetails extends StatefulWidget {
 }
 
 class _PageDetails extends State<PageDetails> {
-  /*String description =
-      "The Griffith Observatory is the most iconic building in Los Angeles, perched high in the Hollywood Hills, 1,134 feet above sea level.";
-  bool isPlaying = false;
-  FlutterTts _flutterTts;
-
-  @override
-  void initState() {
-    super.initState();
-    initializeTts();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    _flutterTts.stop();
-  }
-
-  initializeTts() {
-    _flutterTts = FlutterTts();
-
-    if (PlatformUtil.myPlatform() == MyPlatform.ANDROID) {
-      _flutterTts.ttsInitHandler(() {
-        setTtsLanguage();
-      });
-    } else if (PlatformUtil.myPlatform() == MyPlatform.IOS) {
-      setTtsLanguage();
-    } else if (PlatformUtil.myPlatform() == MyPlatform.WEB) {
-      //not-supported by plugin
-    }
-
-    _flutterTts.setStartHandler(() {
-      setState(() {
-        isPlaying = true;
-      });
-    });
-
-    _flutterTts.setCompletionHandler(() {
-      setState(() {
-        isPlaying = false;
-      });
-    });
-
-    _flutterTts.setErrorHandler((err) {
-      setState(() {
-        print("error occurred: " + err);
-        isPlaying = false;
-      });
-    });
-  }
-
-  void setTtsLanguage() async {
-    await _flutterTts.setLanguage("en-US");
-  }
-
-  void speechSettings1() {
-    _flutterTts.setVoice("en-us-x-sfg#male_1-local");
-    _flutterTts.setPitch(1.5);
-    _flutterTts.setSpeechRate(.9);
-  }
-
-  void speechSettings2() {
-    _flutterTts.setVoice("en-us-x-sfg#male_2-local");
-    _flutterTts.setPitch(1);
-    _flutterTts.setSpeechRate(0.5);
-  }
-
-  Future _speak(String text) async {
-    if (text != null && text.isNotEmpty) {
-      var result = await _flutterTts.speak(text);
-      if (result == 1)
-        setState(() {
-          isPlaying = true;
-        });
-    }
-  }
-
-  Future _stop() async {
-    var result = await _flutterTts.stop();
-    if (result == 1)
-      setState(() {
-        isPlaying = false;
-      });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Stack(
-        children: <Widget>[
-          Container(
-            height: 360,
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(50.0),
-                    bottomRight: Radius.circular(50.0)),
-                gradient: LinearGradient(
-                    colors: [Colors.blue, Colors.blueAccent],
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight)),
-          ),
-          Container(
-            margin: const EdgeInsets.only(top: 80),
-            child: Column(
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Center(
-                    child: Text(
-                      "Griffith Observatory",
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 28,
-                          fontStyle: FontStyle.normal),
-                    ),
-                  ),
-                ),
-                SizedBox(height: 20.0),
-                Expanded(
-                  child: Stack(
-                    children: <Widget>[
-                      Container(
-                        height: double.infinity,
-                        margin: const EdgeInsets.only(
-                            left: 30.0, right: 30.0, top: 10.0),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(30.0),
-                          child: Container(
-                            height: MediaQuery.of(context).size.height / 1.25,
-                            width: MediaQuery.of(context).size.width / 1.25,
-                            child: Image.asset(
-                                "assets/images/griffith_observatory.jpg"),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Text(description),
-                ),
-                playButton(context),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget playButton(BuildContext context) {
-    return Container(
-      child: Stack(
-        children: <Widget>[
-          Container(
-            padding:
-                const EdgeInsets.symmetric(vertical: 5.0, horizontal: 16.0),
-            margin: const EdgeInsets.only(
-                top: 30, left: 30.0, right: 30.0, bottom: 20.0),
-            child: FlatButton(
-              onPressed: () {
-                //fetch another image
-                setState(() {
-                  //speechSettings1();
-                  isPlaying ? _stop() : _speak(description);
-                });
-              },
-              child: isPlaying
-                  ? Icon(
-                      Icons.stop,
-                      size: 60,
-                      color: Colors.red,
-                    )
-                  : Icon(
-                      Icons.play_arrow,
-                      size: 60,
-                      color: Colors.green,
-                    ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}*/
   String description =
       "The Griffith Observatory is the most iconic building in Los Angeles, perched high in the Hollywood Hills, 1,134 feet above sea level.";
   bool isPlaying = false;
@@ -539,98 +317,6 @@ class _PageDetails extends State<PageDetails> {
     );
   }
 }
-// import 'dart:convert';
-
-// import 'package:flutter/material.dart';
-// import 'package:news/entities/note.dart';
-// import 'package:http/http.dart' as http;
-
-// void main() => runApp(App());
-
-// class App extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     return MaterialApp(
-//       title: 'Flutter Demo',
-//       theme: ThemeData(
-//         primarySwatch: Colors.blue,
-//       ),
-//       home: HomePage(),
-//     );
-//   }
-// }
-
-// class HomePage extends StatefulWidget {
-//   @override
-//   _HomePageState createState() => _HomePageState();
-// }
-
-// class _HomePageState extends State<HomePage> {
-//   List<Note> _notes = List<Note>();
-
-//   Future<List<Note>> fetchNotes() async {
-//     // var url =
-//     //     'https://raw.githubusercontent.com/abhay-iy97/kratos/master/news/lib/db.json?token=AEJYMTPMPYLM7KY5KIL6V2C7BG4C6';
-//     // //const String url = 'http://jsonplaceholder.typicode.com/users';
-//     var url =
-//         'https://raw.githubusercontent.com/Shashi456/Deep-Learning/master/data.json';
-//     var response = await http.get(url);
-
-//     var notes = List<Note>();
-
-//     if (response.statusCode == 200) {
-//       var notesJson = json.decode(response.body);
-
-//       for (var noteJson in notesJson['articles']) {
-//         notes.add(Note.fromJson(noteJson));
-//       }
-//     }
-//     return notes;
-//   }
-
-//   @override
-//   void initState() {
-//     fetchNotes().then((value) {
-//       setState(() {
-//         _notes.addAll(value);
-//       });
-//     });
-//     super.initState();
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//         appBar: AppBar(
-//           title: Text('Apples'),
-//         ),
-//         body: ListView.builder(
-//           itemCount: _notes.length,
-//           itemBuilder: (context, index) {
-//             return Card(
-//               child: Padding(
-//                 padding: const EdgeInsets.only(
-//                     top: 32.0, bottom: 32.0, left: 16.0, right: 16.0),
-//                 child: Column(
-//                   crossAxisAlignment: CrossAxisAlignment.start,
-//                   children: <Widget>[
-//                     Text(
-//                       _notes[index].title,
-//                       style:
-//                           TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-//                     ),
-//                     Text(
-//                       _notes[index].text,
-//                       style: TextStyle(color: Colors.grey.shade600),
-//                     ),
-//                   ],
-//                 ),
-//               ),
-//             );
-//           },
-//         ));
-//   }
-// }
 
 class TTSPluginRecipe extends StatefulWidget {
   @override
