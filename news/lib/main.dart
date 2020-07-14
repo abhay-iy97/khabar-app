@@ -15,32 +15,127 @@ void main() => runApp(
     MyApp()); // Main used arrow notation for calling one-line function or methods
 
 class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'News List',
+      home: ScrollTab(),
+    );
+  }
+}
+
+class ScrollTab extends StatefulWidget {
+  @override
+  _ScrollTabState createState() => _ScrollTabState();
+}
+
+class _ScrollTabState extends State<ScrollTab>
+    with SingleTickerProviderStateMixin {
   // Extending the stateless widget makes the app itself a widget
+  TabController _tabController;
+  ScrollController _scrollViewController;
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollViewController = new ScrollController();
+    _tabController = TabController(initialIndex: 0, vsync: this, length: 2);
+  }
+
+  @override
+  void dispose() {
+    _scrollViewController.dispose();
+    _tabController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     // How to display widget in terms of other lower level widgets.
     // final words = WordPair.random(); //using the english words example
-    return MaterialApp(
-      // The Body for this widge contains a Center widget which has another
-      // text child widget
-      // From what I gather, flutter widget as its fundamental component.
-      title: 'News List',
-      home: RandomWords(),
-      // home: Scaffold(
-      //   appBar: AppBar(
-      //     title: Text('Welcome to Flutter'),
-      //   ),
-      //   body: Center(
-      //       //child: Text('Hello World'),
-      //       //Each time you press 'r' i.e hot reload or save this app
-      //       //you will see a different word because the build method is run each time
-      //       //MaterialApp requires rendering.
-      //       //child: Text(words.asPascalCase)),
-      //       // Now using the stateful app
-      //       //child: RandomWords()),
-      //       //Infinite list, call the class
-      // ),
-    ); // MaterialApp -> Rich Visual design language standard on web
+    //return MaterialApp(
+    // The Body for this widge contains a Center widget which has another
+    // text child widget
+    // From what I gather, flutter widget as its fundamental component.
+    // title: 'News List',
+    // home:
+    return DefaultTabController(
+      length: 2,
+      child: new Scaffold(
+        body: new NestedScrollView(
+          headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+            return <Widget>[
+              new SliverAppBar(
+                title: Text("Application"),
+                floating: true,
+                pinned: true,
+                snap:
+                    true, // <--- this is required if I want the application bar to show when I scroll up
+                bottom: new TabBar(
+                  tabs: <Tab>[
+                    new Tab(text: "Trending"),
+                    new Tab(text: "Business"),
+                  ], // <-- total of 2 tabs
+                ),
+              ),
+            ];
+          },
+          body: new TabBarView(
+            children: <Widget>[
+              new RandomWords(),
+              new RandomWords(),
+            ], // <--- the array item is a ListView
+          ),
+        ),
+      ),
+    );
+    // new Scaffold(
+    //   body: new NestedScrollView(
+    //     controller: _scrollViewController,
+    //     headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+    //       return <Widget>[
+    //         new SliverAppBar(
+    //           title: new Text("News App"),
+    //           pinned: true,
+    //           floating: true,
+    //           forceElevated: innerBoxIsScrolled,
+    //           //snap: true,
+    //           bottom: new TabBar(
+    //             tabs: <Tab>[
+    //               new Tab(text: "Trending"),
+    //               new Tab(text: "Business"),
+    //             ],
+    //             controller: _tabController,
+    //           ),
+    //         )
+    //       ];
+    //     },
+    //     body: new TabBarView(
+    //       children: <Widget>[
+    //         new RandomWords(),
+    //         new RandomWords(),
+    //       ],
+    //       controller: _tabController,
+    //     ),
+    //   ),
+    // );
+    //,    );
+    //home: RandomWords(),
+    // home: Scaffold(
+    //   appBar: AppBar(
+    //     title: Text('Welcome to Flutter'),
+    //   ),
+    //   body: Center(
+    //       //child: Text('Hello World'),
+    //       //Each time you press 'r' i.e hot reload or save this app
+    //       //you will see a different word because the build method is run each time
+    //       //MaterialApp requires rendering.
+    //       //child: Text(words.asPascalCase)),
+    //       // Now using the stateful app
+    //       //child: RandomWords()),
+    //       //Infinite list, call the class
+    // ),
+    //); // MaterialApp -> Rich Visual design language standard on web
   }
 }
 
@@ -57,6 +152,7 @@ class _RandomWordsState extends State<RandomWords> {
   final _suggestions = <WordPair>[];
   final _biggerFont = TextStyle(fontSize: 40.0);
   List<Note> _notes = List<Note>();
+
   Widget _buildSuggestions() {
     fetchNotes().then((value) {
       setState(() {
@@ -188,9 +284,9 @@ class _RandomWordsState extends State<RandomWords> {
     // return Text(words.asPascalCase);
     // Now adding the infinite scroll list
     return Scaffold(
-      appBar: AppBar(
-        title: Text('News Baby'),
-      ),
+      // appBar: AppBar(
+      //   title: Text('News Baby'),
+      // ),
       body: _buildSuggestions(),
     );
   }
