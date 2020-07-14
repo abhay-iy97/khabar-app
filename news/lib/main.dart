@@ -4,12 +4,39 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:english_words/english_words.dart';
+import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:news/entities/note.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:news/plugins/platform/myplatform.dart';
 import 'package:news/plugins/platform/platform.dart';
+
+class Tabs {
+  Tabs({this.name, this.url});
+  final String name;
+  final String url;
+}
+
+final List<Tabs> allTabs = <Tabs>[
+  Tabs(
+      name: 'Top Headlines',
+      url:
+          'https://raw.githubusercontent.com/abhay-iy97/kratos-data-source/master/json/topHeadlines/in.json'),
+  Tabs(
+      name: 'Business',
+      url:
+          'https://raw.githubusercontent.com/Shashi456/Deep-Learning/master/data.json'),
+  Tabs(
+      name: 'General',
+      url:
+          'https://raw.githubusercontent.com/abhay-iy97/kratos-data-source/master/json/topHeadlines/in.json'),
+  Tabs(
+      name: 'Sports',
+      url:
+          'https://raw.githubusercontent.com/Shashi456/Deep-Learning/master/data.json'),
+  //Tabs(name: '', url: ''),
+];
 
 void main() => runApp(
     MyApp()); // Main used arrow notation for calling one-line function or methods
@@ -19,7 +46,69 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'News List',
-      home: ScrollTab(),
+      //home: ScrollTab(),
+      home: MyHomePage(),
+    );
+  }
+}
+
+class MyHomePage extends StatefulWidget {
+  @override
+  _MyHomePageState createState() => new _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> {
+  @override
+  Widget build(BuildContext context) {
+    return DefaultTabController(
+      length: allTabs.length,
+      child: new Scaffold(
+        body: new NestedScrollView(
+          headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+            return <Widget>[
+              new SliverAppBar(
+                title: Text("News App"),
+                floating: true,
+                pinned: true,
+                snap: true,
+                bottom: new TabBar(
+                  //isScrollable: true,
+                  tabs: allTabs
+                      .map<Widget>((Tabs tab) => Tab(text: tab.name))
+                      .toList(),
+                  // tabs: <Tab>[
+                  //   new Tab(text: "T"),
+                  //   new Tab(text: "B"),
+                  //], // <-- total of 2 tabs
+                ),
+              ),
+            ];
+          },
+          body: new TabBarView(
+            children: allTabs.map<Widget>((Tabs url) {
+              return PaletteTabView(t: url);
+            }).toList(),
+          ),
+          // body: new TabBarView(
+          //   // children: <Widget>[
+          //   //   Center(
+          //   //       child: Text(
+          //   //     'T Tab',
+          //   //     style: TextStyle(fontSize: 30),
+          //   //   )),
+          //   //   Center(
+          //   //       child: Text(
+          //   //     'B Tab',
+          //   //     style: TextStyle(fontSize: 30),
+          //   //   )),
+          //   // ],
+          //   children: <Widget>[
+          //     new RandomWords(),
+          //     new RandomWords(),
+          //   ],
+          // ),
+        ),
+      ),
     );
   }
 }
@@ -35,19 +124,19 @@ class _ScrollTabState extends State<ScrollTab>
   TabController _tabController;
   ScrollController _scrollViewController;
 
-  @override
-  void initState() {
-    super.initState();
-    _scrollViewController = new ScrollController();
-    _tabController = TabController(initialIndex: 0, vsync: this, length: 2);
-  }
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   _scrollViewController = new ScrollController();
+  //   _tabController = TabController(initialIndex: 0, vsync: this, length: 2);
+  // }
 
-  @override
-  void dispose() {
-    _scrollViewController.dispose();
-    _tabController.dispose();
-    super.dispose();
-  }
+  // @override
+  // void dispose() {
+  //   _scrollViewController.dispose();
+  //   _tabController.dispose();
+  //   super.dispose();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -59,66 +148,68 @@ class _ScrollTabState extends State<ScrollTab>
     // From what I gather, flutter widget as its fundamental component.
     // title: 'News List',
     // home:
-    return DefaultTabController(
-      length: 2,
-      child: new Scaffold(
-        body: new NestedScrollView(
-          headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-            return <Widget>[
-              new SliverAppBar(
-                title: Text("Application"),
-                floating: true,
-                pinned: true,
-                snap:
-                    true, // <--- this is required if I want the application bar to show when I scroll up
-                bottom: new TabBar(
-                  tabs: <Tab>[
-                    new Tab(text: "Trending"),
-                    new Tab(text: "Business"),
-                  ], // <-- total of 2 tabs
-                ),
-              ),
-            ];
-          },
-          body: new TabBarView(
-            children: <Widget>[
-              new RandomWords(),
-              new RandomWords(),
-            ], // <--- the array item is a ListView
-          ),
-        ),
-      ),
-    );
-    // new Scaffold(
-    //   body: new NestedScrollView(
-    //     controller: _scrollViewController,
-    //     headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-    //       return <Widget>[
-    //         new SliverAppBar(
-    //           title: new Text("News App"),
-    //           pinned: true,
-    //           floating: true,
-    //           forceElevated: innerBoxIsScrolled,
-    //           //snap: true,
-    //           bottom: new TabBar(
-    //             tabs: <Tab>[
-    //               new Tab(text: "Trending"),
-    //               new Tab(text: "Business"),
-    //             ],
-    //             controller: _tabController,
+    // return DefaultTabController(
+    //   length: 2,
+    //   child: new Scaffold(
+    //     body: new NestedScrollView(
+    //       headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+    //         return <Widget>[
+    //           new SliverAppBar(
+    //             title: Text("Application"),
+    //             floating: false,
+    //             pinned: false,
+
+    //             snap:
+    //                 false, // <--- this is required if I want the application bar to show when I scroll up
+    //             bottom: new TabBar(
+    //               tabs: <Tab>[
+    //                 new Tab(text: "Trending"),
+    //                 new Tab(text: "Business"),
+    //               ], // <-- total of 2 tabs
+    //             ),
     //           ),
-    //         )
-    //       ];
-    //     },
-    //     body: new TabBarView(
-    //       children: <Widget>[
-    //         new RandomWords(),
-    //         new RandomWords(),
-    //       ],
-    //       controller: _tabController,
+    //         ];
+    //       },
+    //       body: new TabBarView(
+    //         children: <Widget>[
+    //           new RandomWords(),
+    //           new RandomWords(),
+    //         ], // <--- the array item is a ListView
+    //       ),
     //     ),
     //   ),
     // );
+    return new Scaffold(
+      body: new NestedScrollView(
+        controller: _scrollViewController,
+        physics: ScrollPhysics(parent: PageScrollPhysics()),
+        headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+          return <Widget>[
+            new SliverAppBar(
+              title: new Text("News App"),
+              pinned: true,
+              floating: true,
+              forceElevated: innerBoxIsScrolled,
+              //snap: true,
+              bottom: new TabBar(
+                tabs: <Tab>[
+                  new Tab(text: "Trending"),
+                  new Tab(text: "Business"),
+                ],
+                controller: _tabController,
+              ),
+            )
+          ];
+        },
+        body: new TabBarView(
+          children: <Widget>[
+            new RandomWords(),
+            new RandomWords(),
+          ],
+          controller: _tabController,
+        ),
+      ),
+    );
     //,    );
     //home: RandomWords(),
     // home: Scaffold(
@@ -139,22 +230,52 @@ class _ScrollTabState extends State<ScrollTab>
   }
 }
 
+class PaletteTabView extends StatelessWidget {
+  PaletteTabView({
+    Key key,
+    @required this.t,
+  })  : assert(t != null),
+        super(key: key);
+
+  final Tabs t;
+
+  @override
+  Widget build(BuildContext context) {
+    return RandomWords(t: t);
+  }
+}
+
 // Creating stateful widget needs two things
 // Stateful Widget which creates an instance of a state class.
 // So in essence its not the stateful widget which is immutable but the state
 // class which persists.
 class RandomWords extends StatefulWidget {
+  const RandomWords({
+    Key key,
+    @required this.t,
+    this.prefix = '',
+  })  : assert(t != null),
+        assert(prefix != null),
+        super(key: key);
+
+  final String prefix;
+  final Tabs t;
   @override
-  _RandomWordsState createState() => _RandomWordsState();
+  _RandomWordsState createState() => _RandomWordsState(t: t);
 }
 
 class _RandomWordsState extends State<RandomWords> {
+  _RandomWordsState({
+    Key key,
+    @required this.t,
+  });
+  final Tabs t;
   final _suggestions = <WordPair>[];
   final _biggerFont = TextStyle(fontSize: 40.0);
   List<Note> _notes = List<Note>();
 
-  Widget _buildSuggestions() {
-    fetchNotes().then((value) {
+  Widget _buildSuggestions(Tabs t) {
+    fetchNotes(t.url).then((value) {
       setState(() {
         _notes.addAll(value);
       });
@@ -249,7 +370,7 @@ class _RandomWordsState extends State<RandomWords> {
   //   return File('$path/data.json');
   // }
 
-  Future<List<Note>> fetchNotes() async {
+  Future<List<Note>> fetchNotes(String url) async {
     // final file = await _localFile;
 
     // var notes = List<Note>();
@@ -263,8 +384,9 @@ class _RandomWordsState extends State<RandomWords> {
     // var url =
     //     'https://raw.githubusercontent.com/abhay-iy97/kratos/master/news/lib/data.json?token=AEJYMTPMPYLM7KY5KIL6V2C7BG4C6';
     //
-    var url =
-        'https://raw.githubusercontent.com/Shashi456/Deep-Learning/master/data.json';
+    //var url =
+    //   'https://raw.githubusercontent.com/Shashi456/Deep-Learning/master/data.json';
+    print(url);
     var response = await http.get(url);
     var notes = List<Note>();
 
@@ -287,7 +409,7 @@ class _RandomWordsState extends State<RandomWords> {
       // appBar: AppBar(
       //   title: Text('News Baby'),
       // ),
-      body: _buildSuggestions(),
+      body: _buildSuggestions(t),
     );
   }
 }
