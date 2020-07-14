@@ -25,7 +25,9 @@ dependencies:
     sdk: flutter
   flutter_tts: ^0.7.0
   moor: ^2.2.0
-  moor_ffi: ^0.3.0
+  # moor_ffi: ^0.3.0
+  gradient_app_bar: ^0.0.1
+  bubble_tab_indicator: "^0.1.4"
   
   path: ^1.6.4
   # The following adds the Cupertino Icons font to your application.

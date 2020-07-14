@@ -11,6 +11,8 @@ import 'package:http/http.dart' as http;
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:news/plugins/platform/myplatform.dart';
 import 'package:news/plugins/platform/platform.dart';
+import 'package:gradient_app_bar/gradient_app_bar.dart';
+import 'package:bubble_tab_indicator/bubble_tab_indicator.dart';
 
 class Tabs {
   Tabs({this.name, this.url});
@@ -26,7 +28,7 @@ final List<Tabs> allTabs = <Tabs>[
   Tabs(
       name: 'Business',
       url:
-          'https://raw.githubusercontent.com/Shashi456/Deep-Learning/master/data.json'),
+          'https://raw.githubusercontent.com/abhay-iy97/kratos-data-source/master/json/topHeadlines/us.json'),
   Tabs(
       name: 'General',
       url:
@@ -73,6 +75,16 @@ class _MyHomePageState extends State<MyHomePage> {
                 snap: true,
                 bottom: new TabBar(
                   //isScrollable: true,
+                  isScrollable: true,
+                  //controller: controller,
+                  indicatorSize: TabBarIndicatorSize.tab,
+                  indicator: new BubbleTabIndicator(
+                    indicatorHeight: 25.0,
+                    indicatorColor: Colors.white,
+                    tabBarIndicatorSize: TabBarIndicatorSize.tab,
+                  ),
+                  labelColor: Colors.black,
+                  unselectedLabelColor: Colors.white,
                   tabs: allTabs
                       .map<Widget>((Tabs tab) => Tab(text: tab.name))
                       .toList(),
@@ -307,22 +319,37 @@ class _RandomWordsState extends State<RandomWords> {
               child: Padding(
                 padding: const EdgeInsets.only(
                     top: 32.0, bottom: 32.0, left: 16.0, right: 16.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Text(
-                      _notes[i].title,
-                      style:
-                          TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-                    ),
-                    Text(
-                      _notes[i].text,
-                      style: TextStyle(color: Colors.grey.shade700),
-                    ),
-                    Image.network(_notes[i].image)
+                child: Container(
+                  width: MediaQuery.of(context).size.width - 5,
+                  margin: EdgeInsets.symmetric(horizontal: 5, vertical: 5.0),
+                  padding: EdgeInsets.all(5.0),
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(10.0),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.2),
+                          offset: Offset(0, 2.0),
+                          blurRadius: 20.0,
+                        )
+                      ]),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Text(
+                        _notes[i].title,
+                        style: TextStyle(
+                            fontSize: 22, fontWeight: FontWeight.bold),
+                      ),
+                      Text(
+                        _notes[i].text,
+                        style: TextStyle(color: Colors.grey.shade700),
+                      ),
+                      Image.network(_notes[i].image)
 
-                    // Image,
-                  ],
+                      // Image,
+                    ],
+                  ),
                 ),
               ),
             ),
