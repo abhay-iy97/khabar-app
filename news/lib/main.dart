@@ -1,4 +1,5 @@
 import 'dart:async';
+// import 'dart:html';
 import 'dart:io';
 import 'dart:convert';
 import 'package:flutter/foundation.dart';
@@ -13,6 +14,7 @@ import 'package:news/plugins/platform/myplatform.dart';
 import 'package:news/plugins/platform/platform.dart';
 import 'package:gradient_app_bar/gradient_app_bar.dart';
 import 'package:bubble_tab_indicator/bubble_tab_indicator.dart';
+import 'package:flutter_tab_bar_no_ripple/flutter_tab_bar_no_ripple.dart';
 
 class Tabs {
   Tabs({this.name, this.url});
@@ -22,17 +24,17 @@ class Tabs {
 
 final List<Tabs> allTabs = <Tabs>[
   Tabs(
-      name: 'Top Headlines',
+      name: 'Featured News',
+      url:
+          'https://raw.githubusercontent.com/abhay-iy97/kratos-data-source/master/json/topHeadlines/in.json'),
+  Tabs(
+      name: 'Local News',
       url:
           'https://raw.githubusercontent.com/abhay-iy97/kratos-data-source/master/json/topHeadlines/in.json'),
   Tabs(
       name: 'Business',
       url:
           'https://raw.githubusercontent.com/abhay-iy97/kratos-data-source/master/json/topHeadlines/us.json'),
-  Tabs(
-      name: 'General',
-      url:
-          'https://raw.githubusercontent.com/abhay-iy97/kratos-data-source/master/json/topHeadlines/in.json'),
   Tabs(
       name: 'Sports',
       url:
@@ -48,6 +50,10 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'News List',
+      theme: ThemeData(
+          fontFamily: 'Spectral',
+          textTheme: TextTheme(body1: TextStyle(fontStyle: FontStyle.normal))),
+
       //home: ScrollTab(),
       home: MyHomePage(),
     );
@@ -61,6 +67,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   @override
+  Color c = const Color(0x417be8);
   Widget build(BuildContext context) {
     return DefaultTabController(
       length: allTabs.length,
@@ -69,25 +76,39 @@ class _MyHomePageState extends State<MyHomePage> {
           headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
             return <Widget>[
               new SliverAppBar(
-                title: Text("News App"),
+                title: Text("News App", style: TextStyle(color: Colors.black)),
+                backgroundColor: Colors.white,
                 floating: true,
                 pinned: true,
                 snap: true,
-                bottom: new TabBar(
+                //TODO: there is an added dependency for using TabBarNoRipple, which is flutter_tab_bar_no_ripple
+                // write your own tab bar with no ripple effect.
+                bottom: new TabBarNoRipple(
                   //isScrollable: true,
                   isScrollable: true,
+                  indicatorColor: Colors.transparent,
+                  labelStyle: TextStyle(
+                      fontFamily: 'PlayfairDisplay',
+                      fontWeight: FontWeight.w700,
+                      //fontStyle: FontStyle.italic,
+                      fontSize: 30),
+                  unselectedLabelStyle: TextStyle(
+                      fontFamily: 'CrimsonText',
+                      fontWeight: FontWeight.w700,
+                      fontSize: 30),
                   //controller: controller,
-                  indicatorSize: TabBarIndicatorSize.tab,
-                  indicator: new BubbleTabIndicator(
-                    indicatorHeight: 25.0,
-                    indicatorColor: Colors.white,
-                    tabBarIndicatorSize: TabBarIndicatorSize.tab,
-                  ),
+                  // indicatorSize: TabBarIndicatorSize.tab,
+                  // indicator: new BubbleTabIndicator(
+                  //   indicatorHeight: 25.0,
+                  //   indicatorColor: Colors.lightBlue,
+                  //   tabBarIndicatorSize: TabBarIndicatorSize.tab,
+                  // ),
                   labelColor: Colors.black,
-                  unselectedLabelColor: Colors.white,
+                  unselectedLabelColor: Colors.black.withOpacity(0.4),
                   tabs: allTabs
                       .map<Widget>((Tabs tab) => Tab(text: tab.name))
                       .toList(),
+
                   // tabs: <Tab>[
                   //   new Tab(text: "T"),
                   //   new Tab(text: "B"),
@@ -288,9 +309,11 @@ class _RandomWordsState extends State<RandomWords> {
 
   Widget _buildSuggestions(Tabs t) {
     fetchNotes(t.url).then((value) {
-      setState(() {
-        _notes.addAll(value);
-      });
+      if (this.mounted) {
+        setState(() {
+          _notes.addAll(value);
+        });
+      }
     });
     return ListView.builder(
         itemCount: _notes.length,
@@ -319,40 +342,42 @@ class _RandomWordsState extends State<RandomWords> {
               child: Padding(
                 padding: const EdgeInsets.only(
                     top: 32.0, bottom: 32.0, left: 16.0, right: 16.0),
-                child: Container(
-                  width: MediaQuery.of(context).size.width - 5,
-                  margin: EdgeInsets.symmetric(horizontal: 5, vertical: 5.0),
-                  padding: EdgeInsets.all(5.0),
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(10.0),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.2),
-                          offset: Offset(0, 2.0),
-                          blurRadius: 20.0,
-                        )
-                      ]),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Text(
-                        _notes[i].title,
-                        style: TextStyle(
-                            fontSize: 22, fontWeight: FontWeight.bold),
-                      ),
-                      Text(
-                        _notes[i].text,
-                        style: TextStyle(color: Colors.grey.shade700),
-                      ),
-                      Image.network(_notes[i].image)
+                // child: Container(
+                //   width: MediaQuery.of(context).size.width - 5,
+                //   margin: EdgeInsets.symmetric(horizontal: 5, vertical: 5.0),
+                //   padding: EdgeInsets.all(5.0),
+                //   decoration: BoxDecoration(
+                //       color: Colors.white,
+                //       borderRadius: BorderRadius.circular(10.0),
+                //       boxShadow: [
+                //         BoxShadow(
+                //           color: Colors.black.withOpacity(0.2),
+                //           offset: Offset(0, 2.0),
+                //           blurRadius: 20.0,
+                //         )
+                //       ]),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      _notes[i].title,
+                      style: TextStyle(
+                          fontSize: 22,
+                          fontWeight: FontWeight.w500,
+                          fontStyle: FontStyle.normal),
+                    ),
+                    Text(
+                      _notes[i].text,
+                      style: TextStyle(color: Colors.grey.shade700),
+                    ),
+                    Image.network(_notes[i].image)
 
-                      // Image,
-                    ],
-                  ),
+                    // Image,
+                  ],
                 ),
               ),
             ),
+            //),
           );
         });
   }
