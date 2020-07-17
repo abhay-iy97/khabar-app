@@ -2,10 +2,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:news/widgets/tab.dart';
 import 'package:news/widgets/newslist.dart';
-import 'package:news/widgets/contentpage.dart';
-import 'package:news/entities/note.dart';
-import 'package:english_words/english_words.dart';
-import 'package:bubble_tab_indicator/bubble_tab_indicator.dart';
 import 'package:flutter_tab_bar_no_ripple/flutter_tab_bar_no_ripple.dart';
 
 class MyHomePage extends StatefulWidget {
