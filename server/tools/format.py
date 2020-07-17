@@ -21,5 +21,3 @@ class Format:
         print(len(url_list))
         return jsons
 
-    def extract_source(self, jsons):
-        pass    # TO BE DONE.
