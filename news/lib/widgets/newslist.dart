@@ -1,4 +1,18 @@
 import 'package:news/entities/note.dart';
+import 'package:flutter/material.dart';
+import 'package:english_words/english_words.dart';
+import 'package:news/widgets/tab.dart';
+import 'package:http/http.dart' as http;
+import 'package:news/widgets/contentpage.dart';
+import 'package:path/path.dart';
+import 'package:flutter_tab_bar_no_ripple/flutter_tab_bar_no_ripple.dart';
+import 'package:path_provider/path_provider.dart';
+import 'dart:async';
+// import 'dart:html';
+import 'dart:io';
+import 'dart:convert';
+
+import 'dart:async';
 
 // Creating stateful widget needs two things
 // Stateful Widget which creates an instance of a state class.

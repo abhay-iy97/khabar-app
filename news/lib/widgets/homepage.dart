@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:news/widgets/tab.dart';
+import 'package:news/widgets/newslist.dart';
 import 'package:news/widgets/contentpage.dart';
 import 'package:news/entities/note.dart';
 import 'package:english_words/english_words.dart';

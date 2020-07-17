@@ -8,7 +8,7 @@ import 'package:english_words/english_words.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:news/entities/note.dart';
-import 'package:news/widget/homepage.dart';
+import 'package:news/widgets/homepage.dart';
 import 'package:http/http.dart' as http;
 import 'package:gradient_app_bar/gradient_app_bar.dart';
 import 'package:bubble_tab_indicator/bubble_tab_indicator.dart';
@@ -32,4 +32,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-
