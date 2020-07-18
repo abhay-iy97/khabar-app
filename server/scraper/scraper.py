@@ -17,7 +17,7 @@ class Scraper:
             print('Done by newspaper')
             return article.text
             # Storage to be done
-        except ...:
+        except Exception as e:
             try:
                 article = NewsPlease.from_url(url)
                 print('Done by newsplease')
