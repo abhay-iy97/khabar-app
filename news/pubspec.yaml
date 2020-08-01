@@ -23,7 +23,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-
+  assets_audio_player: ^2.0.9
   flutter_tts: ^0.7.0
   moor: ^2.2.0
   # moor_ffi: ^0.3.0
@@ -49,6 +49,7 @@ dev_dependencies:
 
 # The following section is specific to Flutter.
 flutter:
+  # audio:
   fonts:
     - family: RobotoMono
       fonts:
