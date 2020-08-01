@@ -13,6 +13,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   @override
   Color c = const Color(0x417be8);
+  int _currentIndex = 0;
   Widget build(BuildContext context) {
     return DefaultTabController(
       length: allTabs.length,
@@ -97,49 +98,78 @@ class _MyHomePageState extends State<MyHomePage> {
         //   ],
         // ),
         // ),
-        bottomNavigationBar: BottomAppBar(
-          child: Container(
-            height: 25,
-            child: new Row(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                SizedBox(width: 7),
-                IconButton(
-                  icon: Icon(
-                    Icons.home,
-                    size: 24.0,
-                  ),
-                ),
-                IconButton(
-                  icon: Icon(
-                    Icons.favorite,
-                    size: 24.0,
-                  ),
-                ),
-                IconButton(
-                  icon: Icon(
-                    Icons.search,
-                    size: 24.0,
-                    color: Theme.of(context).primaryColor,
-                  ),
-                ),
-                IconButton(
-                  icon: Icon(
-                    Icons.person,
-                    size: 24.0,
-                  ),
-                ),
-                SizedBox(width: 7),
-              ],
-            ),
-          ),
-          elevation: 0,
-          //color: Theme.of(context).primaryColor,
-          color: Colors.white38,
+        // bottomNavigationBar: customBottomNavigationBar(context),
+        // bottomNavigationBar: BottomNavigationBar(
+        //   type: BottomNavigationBarType.fixed,
+        //   elevation: 19,
+        //   currentIndex: _currentIndex,
+        //   backgroundColor: Colors.grey[50],
+        //   selectedItemColor: Colors.grey[800].withOpacity(.9),
+        //   // unselectedItemColor: Colors.white.withOpacity(.6),
+        //   unselectedItemColor: Colors.grey[700].withOpacity(.5),
+        //   selectedFontSize: 14,
+        //   unselectedFontSize: 14,
+        //   onTap: (value) {
+        //     // Respond to item press.
+        //     setState(() => _currentIndex = value);
+        //   },
+        //   items: [
+        //     //bottomnavbar of material forces title
+        //     BottomNavigationBarItem(
+        //         icon: Icon(Icons.home), title: SizedBox.shrink()),
+        //     BottomNavigationBarItem(
+        //         icon: Icon(Icons.play_circle_outline),
+        //         title: SizedBox.shrink()),
+        //     BottomNavigationBarItem(
+        //         icon: Icon(Icons.category), title: SizedBox.shrink()),
+        //     BottomNavigationBarItem(
+        //         icon: Icon(Icons.person), title: SizedBox.shrink()),
+        //   ],
+        // ),
+        // //   bottomNavigationBar: BottomAppBar(
+        //     child: Container(
+        //       height: 25,
+        //       child: new Row(
+        //         mainAxisSize: MainAxisSize.min,
+        //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        //         children: <Widget>[
+        //           SizedBox(width: 7),
+        //           IconButton(
+        //             icon: Icon(
+        //               Icons.home,
+        //               size: 24.0,
+        //             ),
+        //           ),
+        //           IconButton(
+        //             icon: Icon(
+        //               Icons.favorite,
+        //               size: 24.0,
+        //             ),
+        //           ),
+        //           IconButton(
+        //             icon: Icon(
+        //               Icons.search,
+        //               size: 24.0,
+        //               color: Theme.of(context).primaryColor,
+        //             ),
+        //           ),
+        //           IconButton(
+        //             icon: Icon(
+        //               Icons.person,
+        //               size: 24.0,
+        //             ),
+        //           ),
+        //           SizedBox(width: 7),
+        //         ],
+        //       ),
+        //     ),
+        //     elevation: 0,
+        //     //color: Theme.of(context).primaryColor,
+        //     color: Colors.white38,
 
-          shape: CircularNotchedRectangle(),
-        ),
+        //     shape: CircularNotchedRectangle(),
+        //   ),
+        //
       ),
     );
   }
@@ -159,3 +189,24 @@ class PaletteTabView extends StatelessWidget {
     return RandomWords(t: t);
   }
 }
+
+// Widget customBottomNavigationBar(BuildContext context) {
+//   double myHeight = 50.0; //Your height HERE
+//   return SizedBox(
+//     height: myHeight,
+//     width: MediaQuery.of(context).size.width,
+//     child: TabBar(
+//         tabs: [
+//           Tab(text: null, icon: Icon(Icons.home, size: 20.0)),
+//           Tab(text: null, icon: Icon(Icons.search, size: 20.0)),
+//           Tab(text: null, icon: Icon(Icons.person, size: 20.0)),
+//           Tab(text: null, icon: Icon(Icons.menu, size: 20.0)),
+//         ],
+//         labelStyle: TextStyle(fontSize: 12.0),
+//         labelColor: Colors.black,
+//         unselectedLabelColor: Colors.black,
+//         // indicatorSize: TabBarIndicatorSize.label,
+//         // indicatorColor: Colors.red,
+//         indicatorColor: Colors.transparent),
+//   );
+// }
