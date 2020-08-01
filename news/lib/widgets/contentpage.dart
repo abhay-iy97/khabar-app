@@ -110,7 +110,7 @@ class _PageDetails extends State<PageDetails> {
                 setState(() {
                   //speechSettings1();
                   //isPlaying ? _stop() : _speak("descriptions yes no");
-                  _speak(widget.item.text);
+                  isPlaying ? _stop() : _speak(widget.item.text);
                 });
               },
               child: isPlaying
@@ -135,7 +135,52 @@ class _PageDetails extends State<PageDetails> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        actionsIconTheme:
+            IconThemeData(size: 30.0, color: Colors.black, opacity: 10.0),
         title: Text(widget.item.title),
+        actions: <Widget>[
+          Padding(
+              padding: EdgeInsets.only(right: 20.0),
+              child: GestureDetector(
+                onTap: () {},
+                child: Icon(
+                  Icons.search,
+                  size: 26.0,
+                ),
+              )),
+          Padding(
+              padding: EdgeInsets.only(right: 20.0),
+              child: GestureDetector(
+                onTap: () {
+                  //fetch another image
+                  setState(() {
+                    //speechSettings1();
+                    //isPlaying ? _stop() : _speak("descriptions yes no");
+                    isPlaying ? _stop() : _speak(widget.item.text);
+                  });
+                },
+                child: isPlaying
+                    ? Icon(
+                        Icons.stop,
+                        size: 26,
+                        color: Colors.black,
+                      )
+                    : Icon(
+                        Icons.play_arrow,
+                        size: 26,
+                        color: Colors.black,
+                      ),
+              )),
+          Padding(
+              padding: EdgeInsets.only(right: 20.0),
+              child: GestureDetector(
+                onTap: () {},
+                child: Icon(
+                  Icons.menu,
+                  size: 26.0,
+                ),
+              )),
+        ],
       ),
       body: Column(
         children: [
@@ -148,7 +193,7 @@ class _PageDetails extends State<PageDetails> {
             "yolo",
             style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
           ),
-          playButton(context),
+          // playButton(context),
         ],
       ),
       floatingActionButton: FloatingActionButton(
