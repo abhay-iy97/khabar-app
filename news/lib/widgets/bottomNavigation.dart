@@ -14,21 +14,24 @@ class BottomNavigation extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BottomNavigationBar(
-      type: BottomNavigationBarType.fixed,
-      items: tabs
-          .map(
-            (e) => _buildItem(
-              index: e.getIndex(),
-              icon: e.icon,
-              // tabName: e.tabName,
-            ),
-          )
-          .toList(),
-      onTap: (index) => onSelectTab(
-        index,
-      ),
-    );
+    return SizedBox(
+        height: 80,
+        child: BottomNavigationBar(
+          type: BottomNavigationBarType.fixed,
+          elevation: 5,
+          items: tabs
+              .map(
+                (e) => _buildItem(
+                  index: e.getIndex(),
+                  icon: e.icon,
+                  // tabName: e.tabName,
+                ),
+              )
+              .toList(),
+          onTap: (index) => onSelectTab(
+            index,
+          ),
+        ));
   }
 
   BottomNavigationBarItem _buildItem({
@@ -38,7 +41,7 @@ class BottomNavigation extends StatelessWidget {
     return BottomNavigationBarItem(
       icon: Icon(
         icon,
-        size: 20.0,
+        size: 30.0,
         color: _tabColor(index: index),
       ),
       title: SizedBox.shrink(),
