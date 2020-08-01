@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:news/widgets/homepage.dart';
 import 'package:news/widgets/podcastpage.dart';
+import 'package:news/widgets/categorypage.dart';
 import 'tabItem.dart';
 import 'bottomNavigation.dart';
 import 'package:news/widgets/settingspage.dart';
@@ -22,6 +23,11 @@ class AppState extends State<App> {
       // tabName: "Home",
       icon: Icons.home,
       page: MyHomePage(),
+    ),
+    TabItem(
+      // tabName: null,
+      icon: Icons.category,
+      page: CategoryPage(),
     ),
     TabItem(
       // tabName: null,

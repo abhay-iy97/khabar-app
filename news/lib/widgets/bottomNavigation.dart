@@ -15,7 +15,7 @@ class BottomNavigation extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-        height: 80,
+        height: 77,
         child: BottomNavigationBar(
           type: BottomNavigationBarType.fixed,
           elevation: 5,
